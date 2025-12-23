@@ -5,155 +5,232 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Bluex</title>
   <style>
-    :root {
-      --bg: #0b0f1a;
-      --card: #111a2e;
-      --text: #e8ecff;
-      --muted: #aab3d6;
-      --accent: #7c5cff;
+    :root{
+      --bg:#070A12;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.09);
+      --stroke: rgba(255,255,255,.12);
+      --text:#EAF0FF;
+      --muted:#AAB3D6;
+      --accent:#7C5CFF;
+      --accent2:#22D3EE;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius: 18px;
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 800px at 20% 10%, #1a2450, transparent 60%),
-                  radial-gradient(900px 600px at 80% 20%, #2a1a50, transparent 55%),
+      color:var(--text);
+      background: radial-gradient(1100px 800px at 15% 10%, rgba(124,92,255,.35), transparent 60%),
+                  radial-gradient(900px 700px at 85% 25%, rgba(34,211,238,.22), transparent 55%),
                   var(--bg);
-      color: var(--text);
-      min-height: 100vh;
+      overflow-x:hidden;
     }
 
-    /* NAV */
-    header {
-      position: sticky;
-      top: 0;
-      backdrop-filter: blur(10px);
-      background: rgba(11, 15, 26, 0.7);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      z-index: 10;
+    /* animated blobs */
+    .blob{
+      position:fixed;
+      width:520px; height:520px;
+      filter: blur(55px);
+      opacity:.35;
+      z-index:-1;
+      border-radius: 50%;
+      animation: float 12s ease-in-out infinite;
+    }
+    .blob.one{ left:-140px; top:-160px; background: rgba(124,92,255,.65); }
+    .blob.two{ right:-180px; top:60px; background: rgba(34,211,238,.55); animation-delay: -4s; }
+    .blob.three{ left:20%; bottom:-220px; background: rgba(255,255,255,.18); animation-delay: -7s; }
+    @keyframes float{
+      0%,100%{ transform: translate(0,0) scale(1); }
+      50%{ transform: translate(40px,18px) scale(1.06); }
     }
 
-    .nav {
-      max-width: 980px;
+    header{
+      position:sticky; top:0;
+      backdrop-filter: blur(12px);
+      background: rgba(7,10,18,.70);
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      z-index:10;
+    }
+    .nav{
+      max-width: 1000px;
       margin: 0 auto;
       padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
     }
-
-    .brand {
-      font-weight: 800;
-      letter-spacing: 0.4px;
-    }
-
-    .tabs {
-      display: flex;
-      gap: 10px;
-    }
-
-    .tab {
-      appearance: none;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.06);
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: transform .08s ease, background .2s ease, border-color .2s ease;
-      font-weight: 600;
-    }
-    .tab:hover { background: rgba(255,255,255,0.10); }
-    .tab:active { transform: scale(0.98); }
-    .tab.primary {
-      border-color: rgba(124, 92, 255, 0.55);
-      background: rgba(124, 92, 255, 0.18);
-    }
-
-    /* LAYOUT */
-    main {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 28px 18px 60px;
-      display: grid;
-      gap: 18px;
-    }
-
-    section.card {
-      background: rgba(17, 26, 46, 0.72);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 18px;
-      padding: 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-    }
-
-    h2 {
-      margin: 0 0 10px;
-      font-size: 18px;
-      letter-spacing: 0.2px;
-    }
-
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.06);
-      color: var(--text);
-      text-decoration: none;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .pill small { color: var(--muted); font-weight: 600; letter-spacing: 0.2px; }
-    .pill code { color: var(--text); font-weight: 700; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
-
-    .hint {
-      color: var(--muted);
-      margin-top: 10px;
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
-    /* BIG TEXT */
-    .hero {
-      text-align: center;
-      padding: 34px 18px;
-    }
-
-    .hero .big {
-      font-size: clamp(42px, 7vw, 92px);
-      font-weight: 900;
-      letter-spacing: 1px;
-      line-height: 0.95;
-      margin: 0;
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:900;
+      letter-spacing:.6px;
       text-transform: uppercase;
-      background: linear-gradient(90deg, #ffffff, #b9b3ff, #7c5cff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 20px 60px rgba(124,92,255,0.18);
+    }
+    .logo{
+      width:34px; height:34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(124,92,255,.95), rgba(34,211,238,.85));
+      box-shadow: 0 10px 25px rgba(124,92,255,.18);
+    }
+    .tabs{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+    .tab{
+      appearance:none;
+      border:1px solid var(--stroke);
+      background: var(--panel);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-weight:700;
+      transition: transform .08s ease, background .2s ease, border-color .2s ease;
+    }
+    .tab:hover{ background: var(--panel2); }
+    .tab:active{ transform: scale(.98); }
+    .tab.active{
+      border-color: rgba(124,92,255,.55);
+      background: rgba(124,92,255,.18);
     }
 
-    .toast {
+    main{
+      max-width:1000px;
+      margin: 0 auto;
+      padding: 22px 18px 70px;
+    }
+
+    .card{
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .content{
+      padding: 18px;
+      display:grid;
+      gap:16px;
+    }
+
+    .hero{
+      padding: 28px 18px;
+      display:grid;
+      gap:14px;
+      text-align:center;
+    }
+    .big{
+      margin:0;
+      font-size: clamp(44px, 7vw, 96px);
+      font-weight: 950;
+      letter-spacing: 1px;
+      line-height: .95;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #ffffff, #b9b3ff, #7c5cff, #22d3ee);
+      -webkit-background-clip: text;
+      background-clip:text;
+      color: transparent;
+      text-shadow: 0 22px 70px rgba(124,92,255,.18);
+    }
+    .sub{
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+      max-width: 62ch;
+      margin: 0 auto;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:16px;
+    }
+    @media (max-width: 850px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .miniCard{
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+
+    .pill{
+      display:inline-flex; align-items:center; gap:10px;
+      padding: 11px 13px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      text-decoration:none;
+      cursor:pointer;
+      user-select:none;
+      transition: background .2s ease, transform .08s ease, border-color .2s ease;
+    }
+    .pill:hover{ background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.20); }
+    .pill:active{ transform: scale(.985); }
+    .pill small{ color: var(--muted); font-weight:700; letter-spacing:.2px; }
+    .pill code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .btn{
+      appearance:none;
+      border: 1px solid rgba(124,92,255,.55);
+      background: rgba(124,92,255,.18);
+      color: var(--text);
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-weight: 800;
+      cursor:pointer;
+      transition: transform .08s ease, background .2s ease, border-color .2s ease;
+      text-decoration:none;
+      display:inline-flex; align-items:center; gap:10px;
+      justify-content:center;
+    }
+    .btn:hover{ background: rgba(124,92,255,.26); }
+    .btn:active{ transform: scale(.985); }
+
+    .btn.alt{
+      border-color: rgba(34,211,238,.55);
+      background: rgba(34,211,238,.14);
+    }
+    .btn.alt:hover{ background: rgba(34,211,238,.22); }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      width: fit-content;
+    }
+
+    .divider{
+      height:1px;
+      background: rgba(255,255,255,.10);
+      margin: 8px 0;
+    }
+
+    .toast{
       position: fixed;
       left: 50%;
       bottom: 18px;
       transform: translateX(-50%);
-      background: rgba(0,0,0,0.7);
-      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,.75);
+      border: 1px solid rgba(255,255,255,.12);
       color: var(--text);
       padding: 10px 12px;
       border-radius: 12px;
@@ -161,96 +238,210 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity .18s ease, transform .18s ease;
+      z-index: 50;
     }
-    .toast.show {
+    .toast.show{
       opacity: 1;
       transform: translateX(-50%) translateY(-6px);
     }
+
+    .hidden{ display:none !important; }
   </style>
 </head>
 <body>
+  <div class="blob one"></div>
+  <div class="blob two"></div>
+  <div class="blob three"></div>
+
   <header>
     <div class="nav">
-      <div class="brand">BLUEX</div>
+      <div class="brand">
+        <div class="logo"></div>
+        BLUEX
+      </div>
+
       <div class="tabs">
-        <button class="tab" data-go="#about">O mnie</button>
-        <button class="tab" data-go="#contact">Kontakt</button>
-        <button class="tab primary" data-go="#create">CREATE</button>
+        <button class="tab active" data-tab="create">Create</button>
+        <button class="tab" data-tab="about">O mnie</button>
+        <button class="tab" data-tab="contact">Kontakt</button>
       </div>
     </div>
   </header>
 
   <main>
-    <section id="about" class="card">
-      <h2>O mnie</h2>
-      <div class="row">
-        <div class="pill" data-copy="bluext3rmed" title="Kliknij, aby skopiować">
-          <small>Discord:</small> <code>bluext3rmed</code>
+    <div class="card">
+      <!-- CREATE -->
+      <section id="tab-create" class="content">
+        <div class="hero">
+          <div class="badge">⚡ portfolio / kontakt / social</div>
+          <p class="big">CREATE BLUEX!</p>
+          <p class="sub">
+            Minimal, clean, szybka strona. Klikaj zakładki u góry — tam masz IG / Discord / mail.
+          </p>
+          <div class="row" style="justify-content:center;">
+            <button class="btn" data-tabgo="about">👉 O mnie</button>
+            <button class="btn alt" data-tabgo="contact">✉️ Kontakt</button>
+          </div>
         </div>
 
-        <a class="pill" href="https://instagram.com/sebixoo_" target="_blank" rel="noopener">
-          <small>IG:</small> <code>sebixoo_</code>
-        </a>
-      </div>
-      <div class="hint">Tip: Discord skopiujesz klikając w “pillkę”. Instagram otwiera się w nowej karcie.</div>
-    </section>
+        <div class="grid">
+          <div class="miniCard">
+            <h3 style="margin:0 0 8px; font-size:18px;">Co tu będzie?</h3>
+            <p style="margin:0; color:var(--muted); line-height:1.6;">
+              Możemy dodać: projekty, galerię, linki, opis, animacje, przycisk “Zatrudnij mnie”, cokolwiek.
+              Na razie to szybka wersja “link in bio”.
+            </p>
+            <div class="divider"></div>
+            <div class="row">
+              <button class="pill" data-copy="bluext3rmed" title="Kliknij aby skopiować">
+                <small>Discord</small> <code>bluext3rmed</code>
+              </button>
+              <a class="pill" href="https://instagram.com/sebixoo_" target="_blank" rel="noopener">
+                <small>IG</small> <code>sebixoo_</code>
+              </a>
+            </div>
+          </div>
 
-    <section id="contact" class="card">
-      <h2>Kontakt</h2>
-      <div class="row">
-        <a class="pill" href="mailto:kontaktofbluex@gmail.com">
-          <small>Email:</small> <code>kontaktofbluex@gmail.com</code>
-        </a>
-
-        <div class="pill" data-copy="kontaktofbluex@gmail.com" title="Kliknij, aby skopiować">
-          <small>Kopiuj mail:</small> <code>klik</code>
+          <div class="miniCard">
+            <h3 style="margin:0 0 8px; font-size:18px;">Szybkie akcje</h3>
+            <p style="margin:0; color:var(--muted); line-height:1.6;">
+              Kliknij aby skopiować dane albo otworzyć link.
+            </p>
+            <div class="divider"></div>
+            <div class="row">
+              <a class="btn" href="mailto:kontaktofbluex@gmail.com">✉️ Napisz mail</a>
+              <button class="btn alt" data-copy="kontaktofbluex@gmail.com">📋 Kopiuj mail</button>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="hint">Kliknięcie maila otworzy aplikację pocztową (mailto).</div>
-    </section>
+      </section>
 
-    <section id="create" class="card hero">
-      <p class="big">CREATE BLUEX!</p>
-    </section>
+      <!-- ABOUT -->
+      <section id="tab-about" class="content hidden">
+        <div class="row" style="justify-content:space-between; align-items:flex-start;">
+          <div>
+            <div class="badge">👤 O mnie</div>
+            <h2 style="margin:10px 0 6px;">Bluex</h2>
+            <p style="margin:0; color:var(--muted); line-height:1.6;">
+              Tu możesz dodać krótki opis (np. czym się zajmujesz). Na razie zostawiam minimalistycznie.
+            </p>
+          </div>
+          <button class="btn alt" data-tabgo="create">⬅️ Wróć</button>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="miniCard">
+          <h3 style="margin:0 0 10px; font-size:18px;">Social</h3>
+          <div class="row">
+            <button class="pill" data-copy="bluext3rmed" title="Kliknij aby skopiować">
+              <small>Discord</small> <code>bluext3rmed</code>
+            </button>
+
+            <a class="pill" href="https://instagram.com/sebixoo_" target="_blank" rel="noopener">
+              <small>Instagram</small> <code>sebixoo_</code>
+            </a>
+          </div>
+          <p class="sub" style="margin:12px 0 0;">
+            Tip: Discord kopiuje się do schowka. IG otwiera się w nowej karcie.
+          </p>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="tab-contact" class="content hidden">
+        <div class="row" style="justify-content:space-between; align-items:flex-start;">
+          <div>
+            <div class="badge">✉️ Kontakt</div>
+            <h2 style="margin:10px 0 6px;">Napisz do mnie</h2>
+            <p style="margin:0; color:var(--muted); line-height:1.6;">
+              Mail działa od razu, a jak chcesz — skopiuj i wklej gdziekolwiek.
+            </p>
+          </div>
+          <button class="btn alt" data-tabgo="create">⬅️ Wróć</button>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="miniCard">
+          <h3 style="margin:0 0 10px; font-size:18px;">Email</h3>
+          <div class="row">
+            <a class="pill" href="mailto:kontaktofbluex@gmail.com">
+              <small>Email</small> <code>kontaktofbluex@gmail.com</code>
+            </a>
+            <button class="pill" data-copy="kontaktofbluex@gmail.com" title="Kliknij aby skopiować">
+              <small>Kopiuj</small> <code>klik</code>
+            </button>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <a class="btn" href="mailto:kontaktofbluex@gmail.com">✉️ Otwórz pocztę</a>
+            <button class="btn alt" data-copy="kontaktofbluex@gmail.com">📋 Kopiuj mail</button>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
 
   <div id="toast" class="toast">Skopiowano</div>
 
   <script>
-    // Nawigacja po zakładkach (scroll do sekcji)
-    document.querySelectorAll("[data-go]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const target = document.querySelector(btn.dataset.go);
-        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-    });
+    // Tabs: show/hide sections
+    const tabs = document.querySelectorAll(".tab");
+    const sections = {
+      create: document.getElementById("tab-create"),
+      about: document.getElementById("tab-about"),
+      contact: document.getElementById("tab-contact"),
+    };
 
-    // Kopiowanie do schowka (Discord / mail)
-    const toast = document.getElementById("toast");
-    function showToast(text) {
-      toast.textContent = text;
-      toast.classList.add("show");
-      clearTimeout(window.__t);
-      window.__t = setTimeout(() => toast.classList.remove("show"), 1200);
+    function setActive(tabName){
+      tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === tabName));
+      Object.entries(sections).forEach(([name, el]) => {
+        el.classList.toggle("hidden", name !== tabName);
+      });
+      history.replaceState(null, "", "#" + tabName);
     }
 
+    tabs.forEach(t => t.addEventListener("click", () => setActive(t.dataset.tab)));
+
+    // buttons that switch tabs
+    document.querySelectorAll("[data-tabgo]").forEach(btn => {
+      btn.addEventListener("click", () => setActive(btn.dataset.tabgo));
+    });
+
+    // Toast
+    const toast = document.getElementById("toast");
+    function showToast(text){
+      toast.textContent = text;
+      toast.classList.add("show");
+      clearTimeout(window.__toastT);
+      window.__toastT = setTimeout(() => toast.classList.remove("show"), 1200);
+    }
+
+    // Copy
     document.querySelectorAll("[data-copy]").forEach(el => {
       el.addEventListener("click", async () => {
-        try {
-          await navigator.clipboard.writeText(el.dataset.copy);
-          showToast("Skopiowano: " + el.dataset.copy);
-        } catch {
-          // fallback, gdyby clipboard był zablokowany
+        const text = el.dataset.copy;
+        try{
+          await navigator.clipboard.writeText(text);
+          showToast("Skopiowano: " + text);
+        }catch{
           const ta = document.createElement("textarea");
-          ta.value = el.dataset.copy;
+          ta.value = text;
           document.body.appendChild(ta);
           ta.select();
           document.execCommand("copy");
           ta.remove();
-          showToast("Skopiowano: " + el.dataset.copy);
+          showToast("Skopiowano: " + text);
         }
       });
     });
+
+    // Open correct tab if URL has #about / #contact / #create
+    const hash = (location.hash || "").replace("#", "");
+    if (hash && sections[hash]) setActive(hash);
   </script>
 </body>
 </html>
