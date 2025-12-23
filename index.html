@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bluex</title>
+  <style>
+    :root {
+      --bg: #0b0f1a;
+      --card: #111a2e;
+      --text: #e8ecff;
+      --muted: #aab3d6;
+      --accent: #7c5cff;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 800px at 20% 10%, #1a2450, transparent 60%),
+                  radial-gradient(900px 600px at 80% 20%, #2a1a50, transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    header {
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(10px);
+      background: rgba(11, 15, 26, 0.7);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      z-index: 10;
+    }
+
+    .nav {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.4px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+    }
+
+    .tab {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform .08s ease, background .2s ease, border-color .2s ease;
+      font-weight: 600;
+    }
+    .tab:hover { background: rgba(255,255,255,0.10); }
+    .tab:active { transform: scale(0.98); }
+    .tab.primary {
+      border-color: rgba(124, 92, 255, 0.55);
+      background: rgba(124, 92, 255, 0.18);
+    }
+
+    /* LAYOUT */
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 18px 60px;
+      display: grid;
+      gap: 18px;
+    }
+
+    section.card {
+      background: rgba(17, 26, 46, 0.72);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: 0.2px;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      text-decoration: none;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .pill small { color: var(--muted); font-weight: 600; letter-spacing: 0.2px; }
+    .pill code { color: var(--text); font-weight: 700; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+
+    .hint {
+      color: var(--muted);
+      margin-top: 10px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    /* BIG TEXT */
+    .hero {
+      text-align: center;
+      padding: 34px 18px;
+    }
+
+    .hero .big {
+      font-size: clamp(42px, 7vw, 92px);
+      font-weight: 900;
+      letter-spacing: 1px;
+      line-height: 0.95;
+      margin: 0;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #ffffff, #b9b3ff, #7c5cff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 20px 60px rgba(124,92,255,0.18);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.7);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease, transform .18s ease;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-6px);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="brand">BLUEX</div>
+      <div class="tabs">
+        <button class="tab" data-go="#about">O mnie</button>
+        <button class="tab" data-go="#contact">Kontakt</button>
+        <button class="tab primary" data-go="#create">CREATE</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="about" class="card">
+      <h2>O mnie</h2>
+      <div class="row">
+        <div class="pill" data-copy="bluext3rmed" title="Kliknij, aby skopiować">
+          <small>Discord:</small> <code>bluext3rmed</code>
+        </div>
+
+        <a class="pill" href="https://instagram.com/sebixoo_" target="_blank" rel="noopener">
+          <small>IG:</small> <code>sebixoo_</code>
+        </a>
+      </div>
+      <div class="hint">Tip: Discord skopiujesz klikając w “pillkę”. Instagram otwiera się w nowej karcie.</div>
+    </section>
+
+    <section id="contact" class="card">
+      <h2>Kontakt</h2>
+      <div class="row">
+        <a class="pill" href="mailto:kontaktofbluex@gmail.com">
+          <small>Email:</small> <code>kontaktofbluex@gmail.com</code>
+        </a>
+
+        <div class="pill" data-copy="kontaktofbluex@gmail.com" title="Kliknij, aby skopiować">
+          <small>Kopiuj mail:</small> <code>klik</code>
+        </div>
+      </div>
+      <div class="hint">Kliknięcie maila otworzy aplikację pocztową (mailto).</div>
+    </section>
+
+    <section id="create" class="card hero">
+      <p class="big">CREATE BLUEX!</p>
+    </section>
+  </main>
+
+  <div id="toast" class="toast">Skopiowano</div>
+
+  <script>
+    // Nawigacja po zakładkach (scroll do sekcji)
+    document.querySelectorAll("[data-go]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = document.querySelector(btn.dataset.go);
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    // Kopiowanie do schowka (Discord / mail)
+    const toast = document.getElementById("toast");
+    function showToast(text) {
+      toast.textContent = text;
+      toast.classList.add("show");
+      clearTimeout(window.__t);
+      window.__t = setTimeout(() => toast.classList.remove("show"), 1200);
+    }
+
+    document.querySelectorAll("[data-copy]").forEach(el => {
+      el.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(el.dataset.copy);
+          showToast("Skopiowano: " + el.dataset.copy);
+        } catch {
+          // fallback, gdyby clipboard był zablokowany
+          const ta = document.createElement("textarea");
+          ta.value = el.dataset.copy;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          ta.remove();
+          showToast("Skopiowano: " + el.dataset.copy);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
